@@ -10,7 +10,8 @@ enum class Direction
 	South,
 	SouthWest,
 	West,
-	NorthWest
+	NorthWest,
+	None
 };
 
 #endif
