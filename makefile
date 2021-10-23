@@ -1,5 +1,5 @@
 CFLAG = -Wall -ansi -std=c++2a -lstdc++fs
-CLIB =
+CLIB = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-network
 
 CC = g++-10
 CXX = g++-10
