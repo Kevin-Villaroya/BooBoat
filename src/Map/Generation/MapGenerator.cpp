@@ -60,8 +60,13 @@ void MapGenerator::addMarketPlaces(unsigned int nbMarkets){
     }
 }
 
-void MapGenerator::addWind(){
+void MapGenerator::addWinds(unsigned int nbWinds){
+    unsigned int maxSize = MapGenerator::map->getSize() / (int)(nbWinds * 0.75);
 
+    for(unsigned int i = 0; i < nbWinds; i++){
+        Point windPos = this->findNewCenterWind(maxSize);
+        this->generateWind(windPos, maxSize);
+    }
 }
 
 void MapGenerator::addBoat(){
@@ -280,6 +285,116 @@ void MapGenerator::addMarketPlacesRandomly(unsigned int nbMarkets){
 
         coastAdded++;
     }
+}
+
+Point MapGenerator::findNewCenterWind(unsigned int maxSize){
+    std::vector<Point> possibleCase;
+
+    for(unsigned int i = 0; i < MapGenerator::map->getSize(); i++){
+        for(unsigned int j = 0; j < MapGenerator::map->getSize(); j++){
+
+            if( !thereIsWindNear(Point(i, j), maxSize) ){
+                possibleCase.push_back(Point(i, j));
+            }
+
+        }
+    }
+
+    Point p = possibleCase[rand() % possibleCase.size()];
+
+    return p;
+}
+
+void MapGenerator::generateWind(Point point, unsigned int maxSize){
+    Wind* wind = new Wind(this->getRandomDirection());
+    this->map->addWind(wind);
+
+    unsigned int minSize = maxSize * 0.75;
+
+    for(unsigned int i = point.x; i < point.x + maxSize; i++){
+        for(unsigned int j = point.y; j < point.y + maxSize; j++){
+            unsigned int random = rand() % 100 + 1;
+
+            if(i < minSize){
+                MapGenerator::map->setCase(Point(i, j), new CaseIsland(Point(i, j)));
+            }else{
+                unsigned int chanceOfSpawn = 100;
+                unsigned int differenceMaxMin = maxSize - minSize;
+
+                if( i < minSize + differenceMaxMin * 1.25 ){
+                    chanceOfSpawn = 75;
+                }else if( i < minSize + differenceMaxMin * 1.5 ){
+                    chanceOfSpawn = 50;
+                }else if( i < minSize + differenceMaxMin * 1.75 ){
+                    chanceOfSpawn = 25;
+                }else{
+                    chanceOfSpawn = 10;
+                }
+                
+                Point actual{(int)i, (int)j};
+
+                if(random > chanceOfSpawn){
+                    if(!this->map->outOfBounds(actual)){
+                        if(!this->map->caseAt(actual)->hasWind()){
+                            LocalWind* lw = new LocalWind(wind, wind->getAPossibleDirection());
+                            this->map->caseAt(actual)->wind(lw);
+                            wind->addLocalWind(lw);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+Direction MapGenerator::getRandomDirection(){
+    unsigned int random = rand() % 8;
+
+    switch (random){
+    case 0:
+        return Direction::East;
+        break;
+    case 1:
+        return Direction::SouthEast;
+        break;
+    case 2:
+        return Direction::South;
+        break;
+    case 3:
+        return Direction::SouthWest;
+        break;
+    case 4:
+        return Direction::West;
+        break;
+    case 5:
+        return Direction::NorthWest;
+        break;
+    case 6:
+        return Direction::North;
+        break;
+    case 7:
+        return Direction::NorthEast;
+        break;
+    default:
+        return Direction::None;
+        break;
+    }
+}
+
+bool MapGenerator::thereIsWindNear(Point p, int size){
+    for(int i = -size ; i < size; i++){
+        for(int j = -size; j < size; j++){
+            Point actual{p.x + i, p.y + j};
+
+            if( !MapGenerator::map->outOfBounds(actual) && abs(i + j) < size + 1){
+                if( MapGenerator::map->caseAt(actual)->hasWind() ){
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
 bool MapGenerator::thereIsIslandNear(Point point, unsigned int size){

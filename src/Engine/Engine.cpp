@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include <iostream>
 
 Engine::Engine(Map* map) : Engine(720, 720, map){}
 
@@ -33,6 +34,9 @@ void Engine::render(){
     for(unsigned int i = 0; i < this->map->getSize(); i++){
         for(unsigned int j = 0; j < this->map->getSize(); j++){
             this->window->draw(*this->map->caseAt(Point(i, j)));
+            if( this->map->caseAt(Point(i, j))->hasWind() ){
+                this->window->draw( *this->map->caseAt(Point(i, j))->wind() );
+            }
         }
     }
 

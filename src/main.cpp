@@ -10,18 +10,15 @@ int main(int argc, char* argv[])
     size_t sizeMap = 20;
     size_t nbIslands = 4;
     size_t nbMarkets = 6;
+    size_t nbWinds = 5;
 
     MapGenerator* generator = MapGenerator::getInstance();
 
     generator->generateMap(sizeMap, nbIslands);
-    
     generator->addMarketPlaces(nbMarkets);
-    /*
-    generator.addWind();
-    generator.addBoat();
-    */
-
-    //generator.generateAll(sizeMap, nbIslands, nbMarkets); same as above
+    generator->addWinds(nbWinds);
+    generator->addBoat();
+    
 
     Map* map = generator->getGeneratedMap();
 

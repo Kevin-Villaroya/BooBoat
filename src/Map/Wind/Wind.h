@@ -10,9 +10,14 @@
 class Wind {
 private:
     std::vector<LocalWind*> _winds;
+    Direction generalDirection;
 
 public:
-    Wind(Case* caseAtCenter);
+    Wind(Direction);
+    ~Wind();
+
+    void addLocalWind(LocalWind*);
+    Direction getAPossibleDirection();
 
     void tick();
 };

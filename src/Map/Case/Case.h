@@ -14,7 +14,11 @@ public:
 
     virtual ~Case();
 
-    LocalWind& wind() const;
+    bool hasWind();
+
+
+    LocalWind* wind() const;
+    void wind(LocalWind*);
 
     virtual bool isThrowable() const = 0;
     virtual bool hasMarket() const = 0;

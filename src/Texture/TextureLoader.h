@@ -9,12 +9,14 @@ private:
     static TextureTool WATER_TEXTURE;
     static TextureTool LAND_TEXTURE;
     static TextureTool MARKET_TEXTURE;
+    static TextureTool WIND_TEXTURE;
 
 public:
 
     static sf::Texture* getWaterTexture();
     static sf::Texture* getLandTexture();
     static sf::Texture* getMarketTexture();
+    static sf::Texture* getWindTexture();
 };
 
 #endif
