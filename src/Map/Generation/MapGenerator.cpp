@@ -26,15 +26,19 @@ void MapGenerator::deleteInstance(){
     delete MapGenerator::map;
 }
 
-void MapGenerator::generateMap(unsigned int sizeMap, unsigned int nbIslands){
-    delete map;
+void MapGenerator::generateMap(unsigned int sizeMap){
+    delete MapGenerator::map;
 
     srand(time(NULL));
 
+    MapGenerator::map = new Map(sizeMap);
+}
+
+void MapGenerator::generateMap(unsigned int sizeMap, unsigned int nbIslands){
+    this->generateMap(sizeMap);
+    
     unsigned int sizeMinIsland = std::max(MapGenerator::SIZE_MIN_ISLAND, (sizeMap / 5 ) / nbIslands);
     unsigned int sizeMaxIsland = std::max(sizeMinIsland, (sizeMap) / nbIslands);
-
-    MapGenerator::map = new Map(sizeMap);
 
     for(unsigned int i = 0; i < nbIslands; i++){
         Point location = this->findNewIslandLocation(sizeMinIsland, sizeMaxIsland);
@@ -45,7 +49,15 @@ void MapGenerator::generateMap(unsigned int sizeMap, unsigned int nbIslands){
 }
 
 void MapGenerator::addMarketPlaces(unsigned int nbMarkets){
+    std::vector<Point> coastPossible;
 
+    coastPossible = this->getAllCoasts();
+
+    unsigned int marketPlaces = this->addMarketPlacesOnCoast(coastPossible, nbMarkets);
+
+    if(marketPlaces < nbMarkets){
+        this->addMarketPlacesRandomly(nbMarkets - marketPlaces);
+    }
 }
 
 void MapGenerator::addWind(){
@@ -210,6 +222,66 @@ void MapGenerator::setMapConnex(std::vector<std::vector<std::pair<Point, int>>>&
     }
 }
 
+std::vector<Point> MapGenerator::getAllCoasts(){
+    std::vector<Point> coastPossible;
+
+    for(unsigned int i = 0; i < MapGenerator::map->getSize(); i++){
+        for(unsigned int j = 0; j < MapGenerator::map->getSize(); j++){
+            if( isCoast(Point(i, j)) ){
+                coastPossible.push_back(Point(i, j));
+            }
+        }
+    }
+
+    return coastPossible;
+} 
+
+unsigned int MapGenerator::addMarketPlacesOnCoast(std::vector<Point> coastPossible, unsigned int nbMarkets){
+    unsigned int coastAdded = 0;
+
+    for(unsigned int i = 0; i < nbMarkets; i++){
+        unsigned int posInPossibilities = rand() % coastPossible.size();
+        
+        Point p = coastPossible[posInPossibilities];
+        CaseIsland* newCase = new CaseIsland(p);
+
+        newCase->putMarket();
+        this->map->setCase(p, newCase);
+
+        coastPossible.erase(coastPossible.begin() + posInPossibilities);
+        coastAdded++;
+    }
+
+    return coastAdded;
+}
+
+void MapGenerator::addMarketPlacesRandomly(unsigned int nbMarkets){
+    bool find = false;
+
+    unsigned int coastAdded = 0;
+
+    while(coastAdded < nbMarkets){
+        find = false;
+
+        while(!find){
+            unsigned int posX = rand() % this->map->getSize();
+            unsigned int posY = rand() % this->map->getSize();
+
+            Case* c = this->map->caseAt(Point(posX, posY));
+            if(c->isThrowable() && c->hasMarket()){
+                CaseIsland* newCase = new CaseIsland(Point(posX, posY));
+                newCase->putMarket();
+                
+                this->map->setCase(Point(posX, posY), newCase);
+
+                find = true;
+            }
+        }
+
+        coastAdded++;
+    }
+}
+
 bool MapGenerator::thereIsIslandNear(Point point, unsigned int size){
     for(unsigned int i = point.x - size ; i < point.x + size; i++){
         for(unsigned int j = point.y - size; j < point.y + size; j++){
@@ -224,3 +296,20 @@ bool MapGenerator::thereIsIslandNear(Point point, unsigned int size){
     return false;
 }
 
+bool MapGenerator::isCoast(Point p){
+    if(!this->map->caseAt(p)->isThrowable()){
+        for(int i = -1; i < 2; i++){
+            for(int j = -1; j < 2; j++){
+                Point currentPoint{p.x + i, p.y + j};
+
+                if(abs(i + j) == 1 && !this->map->outOfBounds(currentPoint)){
+                    if(this->map->caseAt(currentPoint)->isThrowable()){
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    
+    return false;
+}

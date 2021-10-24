@@ -16,4 +16,5 @@ bool CaseIsland::hasMarket() const{
 
 void CaseIsland::putMarket(){
     this->market = true;
+    this->setTexture(*TextureLoader::getMarketTexture());
 }

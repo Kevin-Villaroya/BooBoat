@@ -16,7 +16,7 @@ public:
     Case* caseAt(const Point&) const;
     void setCase(Point, Case*);
 
-    bool outOfBounds(Point);
+    bool outOfBounds(const Point) const;
 
     unsigned int getSize();
 };

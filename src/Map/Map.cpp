@@ -18,10 +18,14 @@ Map::Map(size_t size){
 }
 
 Case* Map::caseAt(const Point& point) const{
-    return this->_cases[point.x][point.y];
+    if( !this->outOfBounds(point) ){
+        return this->_cases[point.x][point.y];
+    }
+
+    return nullptr;
 }
 
-void Map::setCase(Point point, Case* c){
+void Map::setCase(const Point point, Case* c){
     if( !this->outOfBounds(point) ){
         Case* oldCase = this->_cases[point.x][point.y];
         this->_cases[point.x][point.y] = c;
@@ -29,7 +33,7 @@ void Map::setCase(Point point, Case* c){
     }
 }
 
-bool Map::outOfBounds(Point p){
+bool Map::outOfBounds(Point p) const{
     return p.x < 0 || p.y < 0 || (unsigned int)p.x >= this->_cases.size() || (unsigned int)p.y >= this->_cases.size();
 }
 
