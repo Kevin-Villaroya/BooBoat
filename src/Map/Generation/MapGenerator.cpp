@@ -70,7 +70,18 @@ void MapGenerator::addWinds(unsigned int nbWinds){
 }
 
 void MapGenerator::addBoat(){
+    std::vector<Point> possibleCase;
+    for(unsigned int i = 0; i < MapGenerator::map->getSize(); i++){
+        for(unsigned int j = 0; j < MapGenerator::map->getSize(); j++){
+            Case* c = MapGenerator::map->caseAt(Point(i, j));
+            if(c->isThrowable()){
+                possibleCase.push_back(Point(i,j));
+            }
+        }
+    }
 
+    Point p = possibleCase[rand() % possibleCase.size()];
+    MapGenerator::map->boat(new Boat(p));
 }
 
 Map* MapGenerator::getGeneratedMap(){

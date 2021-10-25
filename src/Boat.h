@@ -2,11 +2,14 @@
 #define BOAT_BOAT_H
 
 #include "Common/Point.h"
+#include <SFML/Graphics.hpp>
 
-class Boat
+class Boat : virtual public sf::Sprite
 {
+private:
 	Point _pos;
 public:
+	Boat(Point);
 	void tick();
 	
 	Point pos() const;

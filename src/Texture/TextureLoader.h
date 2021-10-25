@@ -10,6 +10,7 @@ private:
     static TextureTool LAND_TEXTURE;
     static TextureTool MARKET_TEXTURE;
     static TextureTool WIND_TEXTURE;
+    static TextureTool BOAT_TEXTURE;
 
 public:
 
@@ -17,6 +18,7 @@ public:
     static sf::Texture* getLandTexture();
     static sf::Texture* getMarketTexture();
     static sf::Texture* getWindTexture();
+    static sf::Texture* getBoatTexture();
 };
 
 #endif

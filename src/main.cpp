@@ -18,7 +18,6 @@ int main(int argc, char* argv[])
     generator->addMarketPlaces(nbMarkets);
     generator->addWinds(nbWinds);
     generator->addBoat();
-    
 
     Map* map = generator->getGeneratedMap();
 

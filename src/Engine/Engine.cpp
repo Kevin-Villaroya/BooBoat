@@ -31,11 +31,17 @@ void Engine::run(){
 void Engine::render(){
     this->window->clear(sf::Color::Black);
 
+    Point posBoat = this->map->boat()->pos();
+
     for(unsigned int i = 0; i < this->map->getSize(); i++){
         for(unsigned int j = 0; j < this->map->getSize(); j++){
             this->window->draw(*this->map->caseAt(Point(i, j)));
             if( this->map->caseAt(Point(i, j))->hasWind() ){
                 this->window->draw( *this->map->caseAt(Point(i, j))->wind() );
+            }
+
+            if(posBoat.x == (int)i && posBoat.y == (int)j){
+                this->window->draw( *this->map->boat() );
             }
         }
     }
