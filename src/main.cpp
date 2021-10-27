@@ -14,7 +14,16 @@ int main(int argc, char* argv[])
 
     MapGenerator* generator = MapGenerator::getInstance();
 
-    generator->generateMap(sizeMap, nbIslands);
+    /**
+    *  On peut mettre un seed en parametre 
+    **/ 
+    if(argc == 2){
+        unsigned int seed = atoi(argv[1]);
+        generator->generateMap(sizeMap, nbIslands, seed);
+    }else{
+        generator->generateMap(sizeMap, nbIslands);
+    }
+
     generator->addMarketPlaces(nbMarkets);
     generator->addWinds(nbWinds);
     generator->addBoat();

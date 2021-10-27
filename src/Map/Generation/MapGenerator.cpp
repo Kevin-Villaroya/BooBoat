@@ -26,23 +26,33 @@ void MapGenerator::deleteInstance(){
     delete MapGenerator::map;
 }
 
+void MapGenerator::setSeed(unsigned int seed){
+    srand(seed);
+}
+
 void MapGenerator::generateMap(unsigned int sizeMap){
-    delete MapGenerator::map;
-
-    srand(time(NULL));
-
-    MapGenerator::map = new Map(sizeMap);
+    this->generateMap(sizeMap, 0);
 }
 
 void MapGenerator::generateMap(unsigned int sizeMap, unsigned int nbIslands){
-    this->generateMap(sizeMap);
+    this->generateMap(sizeMap, nbIslands, time(NULL));
+}
+
+void MapGenerator::generateMap(unsigned int sizeMap, unsigned int nbIslands, unsigned int seed){
+    delete MapGenerator::map;
+
+    std::cout << "seed utiliser: " << seed << std::endl;
+
+    this->setSeed(seed);
+
+    MapGenerator::map = new Map(sizeMap);
     
     unsigned int sizeMinIsland = std::max(MapGenerator::SIZE_MIN_ISLAND, (sizeMap / 5 ) / nbIslands);
     unsigned int sizeMaxIsland = std::max(sizeMinIsland, (sizeMap) / nbIslands);
 
     for(unsigned int i = 0; i < nbIslands; i++){
         Point location = this->findNewIslandLocation(sizeMinIsland, sizeMaxIsland);
-        this->genereateIsland(location, sizeMinIsland, sizeMaxIsland);
+        this->generateIsland(location, sizeMinIsland, sizeMaxIsland);
     }
 
     this->verifyConnexity();
@@ -103,7 +113,7 @@ Point MapGenerator::findNewIslandLocation(unsigned int minSize, unsigned int max
     return p;
 }
 
-void MapGenerator::genereateIsland(Point point, unsigned int minSize, unsigned int maxSize){
+void MapGenerator::generateIsland(Point point, unsigned int minSize, unsigned int maxSize){
 
     for(unsigned int i = point.x; i < point.x + maxSize; i++){
         for(unsigned int j = point.y; j < point.y + maxSize; j++){

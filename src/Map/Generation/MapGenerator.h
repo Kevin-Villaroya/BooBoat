@@ -13,7 +13,7 @@ private:
     static const unsigned int SIZE_MIN_ISLAND;
 
     Point findNewIslandLocation(unsigned int minSize, unsigned int maxSize);
-    void genereateIsland(Point, unsigned int, unsigned int);
+    void generateIsland(Point, unsigned int, unsigned int);
 
     std::vector<std::vector<std::pair<Point, int>>> makeGraph();
     void verifyConnexity();
@@ -33,11 +33,16 @@ private:
     
 public:
     static MapGenerator* getInstance();
-    
+
     /**
     delete all the statics elements
     **/
     void deleteInstance();
+
+    /**
+    set seed for all the simulation
+    **/
+    void setSeed(unsigned int seed);
 
     /**
     only ocean
@@ -50,6 +55,12 @@ public:
     remove the seconde parameter so as not to generate islands
     **/
     void generateMap(unsigned int sizeMap, unsigned int nbIslands);
+
+    /**
+    only ocean
+    add the seconde parameter to generate islands
+    **/
+    void generateMap(unsigned int sizeMap, unsigned int nbIslands, unsigned int seed);
 
     /**
     add markets in the map
