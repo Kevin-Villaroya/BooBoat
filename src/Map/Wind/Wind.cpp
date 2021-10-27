@@ -12,79 +12,84 @@ void Wind::addLocalWind(LocalWind* localWind){
     this->_winds.push_back(localWind);
 }
 
-Direction Wind::getAPossibleDirection(){
-    unsigned int random = rand() % 3;
+
+Direction Wind::getAPossibleDirectionForALocalWind(){
+    unsigned int random = rand() % 4;
+
+    bool sameDirection = random == 0 || random == 1;
+    bool leftDirection = random == 2;
+    bool rightDirection = random == 3;
 
     switch (this->generalDirection){
     case Direction::East:
-        if(random == 0){
+        if(sameDirection){
             return Direction::East;
-        }else if(random == 1){
+        }else if(leftDirection){
             return Direction::NorthEast;
-        }else if(random == 2){
+        }else if(rightDirection){
             return Direction::SouthEast;
         }
         break;
     case Direction::SouthEast:
-        if(random == 0){
+        if(sameDirection){
             return Direction::SouthEast;
-        }else if(random == 1){
-            return Direction::South;
-        }else if(random == 2){
+        }else if(leftDirection){
             return Direction::East;
+        }else if(rightDirection){
+            return Direction::South;
         }
         break;
     case Direction::South:
-        if(random == 0){
+        if(sameDirection){
             return Direction::South;
-        }else if(random == 1){
+        }else if(leftDirection){
             return Direction::SouthEast;
-        }else if(random == 2){
+        }else if(rightDirection){
             return Direction::SouthWest;
         }
         break;
     case Direction::SouthWest:
-        if(random == 0){
+        if(sameDirection){
             return Direction::SouthWest;
-        }else if(random == 1){
+        }else if(leftDirection){
             return Direction::West;
-        }else if(random == 2){
+        }else if(rightDirection){
             return Direction::South;
         }
         break;
     case Direction::West:
-        if(random == 0){
-            return Direction::SouthWest;
-        }else if(random == 1){
+        if(sameDirection){
             return Direction::West;
-        }else if(random == 2){
+        }else if(leftDirection){
+            return Direction::SouthWest;
+        }else if(rightDirection){
             return Direction::NorthWest;
         }
         break;
     case Direction::NorthWest:
-        if(random == 0){
-            return Direction::North;
-        }else if(random == 1){
-            return Direction::West;
-        }else if(random == 2){
+        if(sameDirection){
             return Direction::NorthWest;
+        }else if(leftDirection){
+            return Direction::West;
+        }else if(rightDirection){
+            return Direction::North;
         }
         break;
     case Direction::North:
-        if(random == 0){
+        if(sameDirection){
             return Direction::North;
-        }else if(random == 1){
+        }else if(leftDirection){
             return Direction::NorthEast;
-        }else if(random == 2){
+        }else if(rightDirection){
             return Direction::NorthWest;
         }
         break;
     case Direction::NorthEast:
-        if(random == 0){
-            return Direction::North;
-        }else if(random == 1){
+        if(sameDirection){
             return Direction::NorthEast;
-        }else if(random == 2){
+        }else if(leftDirection){
+            return Direction::North;
+        }else if(rightDirection){
             return Direction::East;
         }
         break;

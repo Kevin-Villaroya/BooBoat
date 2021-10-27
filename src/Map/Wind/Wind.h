@@ -17,7 +17,12 @@ public:
     ~Wind();
 
     void addLocalWind(LocalWind*);
-    Direction getAPossibleDirection();
+
+    /**
+    * make a possible wind direction for is locals wind
+    * 50% same direction, 25% for each side direction
+    **/ 
+    Direction getAPossibleDirectionForALocalWind();
 
     void tick();
 };

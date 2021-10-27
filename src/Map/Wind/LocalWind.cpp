@@ -1,12 +1,11 @@
 #include "LocalWind.h"
 #include "../../Texture/TextureLoader.h"
+#include "Wind.h"
 #include <iostream>
 
-LocalWind::LocalWind(Wind* w) : LocalWind(w, Direction::None){}
-
-LocalWind::LocalWind(Wind* w, Direction d){
+LocalWind::LocalWind(Wind* w){
     this->windReference = w;
-    this->_direction = d;
+    this->_direction = w->getAPossibleDirectionForALocalWind();
 
     this->setTexture(*TextureLoader::getWindTexture());
     this->setOrigin(this->getTexture()->getSize().x / 2, this->getTexture()->getSize().y / 2);

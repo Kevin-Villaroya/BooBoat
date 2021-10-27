@@ -347,7 +347,7 @@ void MapGenerator::generateWind(Point point, unsigned int maxSize){
                 if(random > chanceOfSpawn){
                     if(!this->map->outOfBounds(actual)){
                         if(!this->map->caseAt(actual)->hasWind()){
-                            LocalWind* lw = new LocalWind(wind, wind->getAPossibleDirection());
+                            LocalWind* lw = new LocalWind(wind);
                             this->map->caseAt(actual)->wind(lw);
                             wind->addLocalWind(lw);
                         }
