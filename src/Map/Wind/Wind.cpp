@@ -1,5 +1,8 @@
 #include "Wind.h"
 
+const int Wind::PROBA_ROTATE = 5;
+
+
 Wind::Wind(Direction d) : generalDirection(d){}
 
 Wind::~Wind(){
@@ -12,6 +15,18 @@ void Wind::addLocalWind(LocalWind* localWind){
     this->_winds.push_back(localWind);
 }
 
+bool Wind::contains(LocalWind* lc){
+    for(unsigned int i = 0; i < this->_winds.size(); i++){
+        if(lc == this->_winds[i]){
+            return true;
+        }
+    }
+    return false;
+}
+
+Direction Wind::getGeneralDirection(){
+    return this->generalDirection;
+}
 
 Direction Wind::getAPossibleDirectionForALocalWind(){
     unsigned int random = rand() % 4;
@@ -111,5 +126,9 @@ void Wind::changeDirection(){
 }
 
 void Wind::tick(){
-    this->changeDirection();//TO REMOVE
+    int random_rotate = rand() % 100;
+
+    if(random_rotate <= Wind::PROBA_ROTATE){
+        this->changeDirection();
+    }
 }

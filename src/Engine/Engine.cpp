@@ -54,9 +54,5 @@ void Engine::render(){
 }
 
 void Engine::update(){
-
-
-    for(unsigned int i = 0; i < this->map->wind().size(); i++){
-        this->map->wind()[i]->tick();
-    }
+    this->map->tick();
 }

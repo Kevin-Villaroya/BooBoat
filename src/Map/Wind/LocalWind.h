@@ -19,6 +19,7 @@ public:
     void direction(Direction);
     Direction direction() const;
 
+    static LocalWind* LOCALWIND_NULL;
 };
 
 #endif

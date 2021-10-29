@@ -13,6 +13,12 @@ private:
     std::vector<Wind*> _winds;
     Boat* _boat;
 
+    static const int PROBA_MOVE;
+
+    std::vector<std::pair<LocalWind*, Point>> associateWindsToPosition(Wind*);
+    Point offsetDirection(Wind*);
+    void setWind(std::vector<std::pair<LocalWind*, Point>>);
+
 public:
     Map();
     Map(size_t size);
@@ -20,6 +26,8 @@ public:
 
     Case* caseAt(const Point&) const;
     void setCase(Point, Case*);
+
+    Point goToOtherSide(Point);
 
     void boat(Boat*);
     Boat* boat() const;
@@ -31,6 +39,10 @@ public:
     void addWind(Wind*);
 
     unsigned int getSize();
+
+    void tick();
+    void moveWind(Wind*);
+    void rotateWind(Wind*, int);
 };
 
 #endif

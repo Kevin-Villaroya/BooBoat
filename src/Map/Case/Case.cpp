@@ -21,3 +21,7 @@ void Case::wind(LocalWind* w){
     sf::Vector2u size = this->_localWind->getTexture()->getSize();
     this->_localWind->setPosition(this->getPosition().x + size.x / 2, this->getPosition().y + size.y / 2);
 }
+
+ void Case::removeWind(){
+    this->_localWind = nullptr;
+ }

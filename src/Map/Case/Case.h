@@ -21,6 +21,8 @@ public:
     LocalWind* wind() const;
     void wind(LocalWind*);
 
+    void removeWind();
+
     virtual bool isThrowable() const = 0;
     virtual bool hasMarket() const = 0;
 

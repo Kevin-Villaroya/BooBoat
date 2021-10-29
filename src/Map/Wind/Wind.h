@@ -12,11 +12,16 @@ private:
     std::vector<LocalWind*> _winds;
     Direction generalDirection;
 
+    static const int PROBA_ROTATE;
+
 public:
     Wind(Direction);
     ~Wind();
 
     void addLocalWind(LocalWind*);
+    bool contains(LocalWind*);
+
+    Direction getGeneralDirection();
 
     /**
     * make a possible wind direction for is locals wind
