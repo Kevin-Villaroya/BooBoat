@@ -2,6 +2,7 @@
 #define BOAT_KNOWLEDGE_H
 
 #include <unordered_map>
+#include <optional>
 #include "Common/Point.h"
 #include "Wind.h"
 
@@ -9,24 +10,35 @@ struct Knowledge
 {
 private:
 	Point _pos;
-	std::unordered_map<Point, Wind> _winds;
+	std::unordered_map<Point, Direction> _winds;
 
 public:
-	Knowledge(Point pos)
+	explicit Knowledge(Point pos)
 		:_pos(pos)
 	{}
 
 	Point pos() const { return _pos; }
 	void pos(Point pos) { _pos = pos; }
-	void addWind(Point pos, Wind w)
+	void addWind(Point pos, Direction w)
 	{
 		_winds[pos] = w;
+	}
+
+	Direction windDirectionAt(Point pos) const
+	{
+		auto it = _winds.find(pos);
+		if(it == _winds.end()) return Direction::None;
+		return it->second;
 	}
 
 	void merge(const Knowledge& other)
 	{
 		_pos = other._pos;
-		//TODO
+
+		//Merge with priority on the new values
+		auto copy = std::move(_winds);
+		_winds = other._winds;
+		_winds.merge(copy);
 	}
 };
 

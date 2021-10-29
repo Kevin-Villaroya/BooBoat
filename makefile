@@ -1,4 +1,4 @@
-CFLAG = -Wall -ansi -std=c++2a -lstdc++fs
+CFLAG = -Wall -fmax-errors=2 -ansi -std=c++2a -lstdc++fs
 CLIB =
 
 CC = g++-10
