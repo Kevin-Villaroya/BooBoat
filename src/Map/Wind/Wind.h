@@ -23,6 +23,7 @@ public:
     * 50% same direction, 25% for each side direction
     **/ 
     Direction getAPossibleDirectionForALocalWind();
+    void changeDirection();
 
     void tick();
 };

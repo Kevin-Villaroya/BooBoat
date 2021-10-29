@@ -25,6 +25,7 @@ private:
     unsigned int addMarketPlacesOnCoast(std::vector<Point>, unsigned int);
     void addMarketPlacesRandomly(unsigned int);
     bool isCoast(Point);
+    void setHarbor(Point, Case*);
 
     Point findNewCenterWind(unsigned int);
     void generateWind(Point, unsigned);

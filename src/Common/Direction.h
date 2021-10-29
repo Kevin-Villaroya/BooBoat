@@ -23,4 +23,9 @@ inline std::ostream &operator << ( std::ostream& strm, Direction dir )
    return strm << nameTT[dir];
 }
 
+inline Direction rotate(Direction dir, int value){
+
+	return static_cast<Direction>((dir+value + 8) % 8);
+}
+
 #endif

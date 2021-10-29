@@ -100,6 +100,16 @@ Direction Wind::getAPossibleDirectionForALocalWind(){
     return Direction::None;
 }
 
+void Wind::changeDirection(){
+    int random = (rand() % 2) - 1;
+
+    this->generalDirection = rotate(this->generalDirection, random);
+
+    for(unsigned int i = 0; i < this->_winds.size(); i++){
+        this->_winds[i]->direction( rotate(this->_winds[i]->direction(), random) );
+    }
+}
+
 void Wind::tick(){
-    //TODO
+    this->changeDirection();//TO REMOVE
 }

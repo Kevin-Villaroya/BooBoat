@@ -22,6 +22,7 @@ public:
     void run();
     void checkEvent();
     void render();
+    void update();
 };
 
 #endif

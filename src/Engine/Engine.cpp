@@ -25,6 +25,7 @@ void Engine::run(){
     while (window->isOpen()){
         this->checkEvent();
         this->render();
+        this->update();
     }
 }
 
@@ -35,8 +36,11 @@ void Engine::render(){
 
     for(unsigned int i = 0; i < this->map->getSize(); i++){
         for(unsigned int j = 0; j < this->map->getSize(); j++){
+
             this->window->draw(*this->map->caseAt(Point(i, j)));
-            if( this->map->caseAt(Point(i, j))->hasWind() ){
+            Case* c = this->map->caseAt(Point(i, j));
+
+            if( c->hasWind() ){
                 this->window->draw( *this->map->caseAt(Point(i, j))->wind() );
             }
 
@@ -47,4 +51,12 @@ void Engine::render(){
     }
 
     this->window->display();
+}
+
+void Engine::update(){
+
+
+    for(unsigned int i = 0; i < this->map->wind().size(); i++){
+        this->map->wind()[i]->tick();
+    }
 }

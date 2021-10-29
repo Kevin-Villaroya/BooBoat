@@ -53,6 +53,10 @@ Boat* Map::boat() const{
     return this->_boat;
 }
 
+std::vector<Wind*> Map::wind(){
+    return this->_winds;
+}
+
 bool Map::outOfBounds(Point p) const{
     return p.x < 0 || p.y < 0 || (unsigned int)p.x >= this->_cases.size() || (unsigned int)p.y >= this->_cases.size();
 }

@@ -16,6 +16,9 @@ public:
 
     bool hasMarket() const override;
     void putMarket();
+
+    bool isHarbor(CaseIsland*) const override;
+    bool isHarbor() const override;
 };
 
 #endif

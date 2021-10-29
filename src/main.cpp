@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 
     Map* map = generator->getGeneratedMap();
 
-    Engine engine(map);
+    Engine engine(1080, 1080, map);
     engine.run();
 
     generator->deleteInstance();

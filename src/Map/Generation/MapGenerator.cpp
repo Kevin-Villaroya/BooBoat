@@ -272,6 +272,7 @@ unsigned int MapGenerator::addMarketPlacesOnCoast(std::vector<Point> coastPossib
         CaseIsland* newCase = new CaseIsland(p);
 
         newCase->putMarket();
+        this->setHarbor(p, newCase);
         this->map->setCase(p, newCase);
 
         coastPossible.erase(coastPossible.begin() + posInPossibilities);
@@ -448,4 +449,19 @@ bool MapGenerator::isCoast(Point p){
     }
     
     return false;
+}
+
+void MapGenerator::setHarbor(Point p, Case* c){
+    for(int i = -1; i < 2; i++){
+        for(int j = -1; j < 2; j++){
+            Point currentPoint{p.x + i, p.y + j};
+
+            if(abs(i + j) == 1 && !this->map->outOfBounds(currentPoint)){
+                if(this->map->caseAt(currentPoint)->isThrowable()){
+                    CaseWater* caseWater = dynamic_cast<CaseWater*>(this->map->caseAt(currentPoint));
+                    caseWater->addAdjacentMarket(dynamic_cast<CaseIsland*>(c));
+                }
+            }
+        }
+    }
 }

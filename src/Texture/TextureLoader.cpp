@@ -5,6 +5,7 @@ TextureTool TextureLoader::LAND_TEXTURE(TextureTool("assets/forest.png"));
 TextureTool TextureLoader::MARKET_TEXTURE(TextureTool("assets/market.png"));
 TextureTool TextureLoader::WIND_TEXTURE(TextureTool("assets/wind.png"));
 TextureTool TextureLoader::BOAT_TEXTURE(TextureTool("assets/boat.png"));
+TextureTool TextureLoader::ANCHOR_TEXTURE(TextureTool("assets/anchor.png"));
 
 sf::Texture* TextureLoader::getWaterTexture(){
     return &TextureLoader::WATER_TEXTURE;
@@ -24,4 +25,8 @@ sf::Texture* TextureLoader::getWindTexture(){
 
 sf::Texture* TextureLoader::getBoatTexture(){
     return &TextureLoader::BOAT_TEXTURE;
+}
+
+sf::Texture* TextureLoader::getAnchorTexture(){
+    return &TextureLoader::ANCHOR_TEXTURE;
 }

@@ -24,6 +24,8 @@ public:
     void boat(Boat*);
     Boat* boat() const;
 
+    std::vector<Wind*> wind();
+
     bool outOfBounds(const Point) const;
 
     void addWind(Wind*);
