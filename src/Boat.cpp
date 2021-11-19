@@ -51,7 +51,7 @@ void Boat::tick()
 void Boat::move(Direction dir)
 {
     Case* c = _map->caseAt(this->_pos + dir);
-    
+
     if(c != nullptr)
     {
         if(LocalWind* local_wind = c->wind())
@@ -65,6 +65,7 @@ void Boat::move(Direction dir)
     }
 
     this->_pos += dir;
+    this->setPosition(sf::Vector2f(this->_pos.x * 33, this->_pos.y * 33));
 }
 
 Point Boat::pos() const

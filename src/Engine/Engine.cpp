@@ -47,7 +47,7 @@ void Engine::render(){
             }
 
             if(posBoat.x == (int)i && posBoat.y == (int)j){
-                this->window->draw( *this->map->boat() );
+                this->window->draw(*this->map->boat());
             }
         }
     }
