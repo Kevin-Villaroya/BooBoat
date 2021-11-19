@@ -2,7 +2,7 @@
 #include "Texture/TextureLoader.h"
 #include "Map/Map.h"
 
-Boat::Boat(Point point, Map& map) : _pos(point), _map(&map){
+Boat::Boat(Point point, Map& map) : _pos(point), _map(&map), _tick(0) {
   this->setPosition(sf::Vector2f(point.x * 33, point.y * 33));
   this->setTexture(*TextureLoader::getBoatTexture());
 }
@@ -37,11 +37,33 @@ Knowledge Boat::perception() const
 void Boat::tick()
 {
 	_ai.addPerception(perception());
-	move(_ai.nextDirection());
+
+    if(this->_tick == 0)
+    {
+        move(_ai.nextDirection());
+    }
+	else
+    {
+        this->_tick--;
+    }
 }
 
 void Boat::move(Direction dir)
 {
+    Case* c = _map->caseAt(this->_pos + dir);
+    
+    if(c != nullptr)
+    {
+        if(LocalWind* local_wind = c->wind())
+        {
+            this->_tick = moveTurnsInWind(dir, local_wind->direction());
+        }
+        else
+        {
+            this->_tick = moveTurnsInWind(dir, Direction::None);
+        }
+    }
+
     this->_pos += dir;
 }
 

@@ -12,6 +12,7 @@ private:
 	Point _pos;
 	BoatAi _ai;
     class Map* _map;
+	int _tick;
 
 	Knowledge perception() const;
 
@@ -19,7 +20,7 @@ public:
 	Boat(Point, Map&);
 	void tick();
 	void move(Direction dir);
-	
+
 	Point pos() const;
 };
 
