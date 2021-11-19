@@ -91,7 +91,7 @@ void MapGenerator::addBoat(){
     }
 
     Point p = possibleCase[rand() % possibleCase.size()];
-    MapGenerator::map->boat(new Boat(p));
+    MapGenerator::map->boat(new Boat(p, *MapGenerator::map));
 }
 
 Map* MapGenerator::getGeneratedMap(){

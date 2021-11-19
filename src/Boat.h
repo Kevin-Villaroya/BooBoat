@@ -11,11 +11,12 @@ class Boat : virtual public sf::Sprite
 private:
 	Point _pos;
 	BoatAi _ai;
+    class Map* _map;
 
 	Knowledge perception() const;
 
 public:
-	Boat(Point);
+	Boat(Point, Map&);
 	void tick();
 	void move(Direction dir);
 	
