@@ -2,6 +2,7 @@
 #include "../../Texture/TextureLoader.h"
 #include "Wind.h"
 #include <iostream>
+#include <cmath>
 
 LocalWind::LocalWind(Wind* w){
     this->windReference = w;

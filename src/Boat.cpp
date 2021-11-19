@@ -21,7 +21,7 @@ void Boat::tick()
 
 void Boat::move(Direction dir)
 {
-	//TODO
+    this->_pos += dir;
 }
 
 Point Boat::pos() const
