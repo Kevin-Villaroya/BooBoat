@@ -40,7 +40,9 @@ void Boat::tick()
 
     if(this->_tick == 0)
     {
-        move(_ai.nextDirection());
+        Direction dir = _ai.nextDirection();
+        std::cout << "Going " << dir << std::endl;
+        move(dir);
     }
 	else
     {

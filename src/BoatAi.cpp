@@ -105,6 +105,7 @@ void BoatAi::addPerception(Knowledge perception)
 
 Direction BoatAi::nextDirection()
 {
+    if(_knowledge.pos().value_or(_destination) == _destination) return Direction::None;
 	if(_plan.empty())
 	{
 		computePlan();

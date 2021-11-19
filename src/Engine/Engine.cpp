@@ -35,6 +35,7 @@ void Engine::render(){
     this->window->clear(sf::Color::Black);
 
     Point posBoat = this->map->boat()->pos();
+    std::cout << "Boat is at : " << posBoat << std::endl; //TODO : Remove this once we can see the boat
 
     for(unsigned int i = 0; i < this->map->getSize(); i++){
         for(unsigned int j = 0; j < this->map->getSize(); j++){
@@ -57,7 +58,6 @@ void Engine::render(){
 
 void Engine::update(){
     using namespace std::literals;
-
     this->map->tick();
-    std::this_thread::sleep_for(1s);
+    std::this_thread::sleep_for(100ms);
 }
