@@ -10,7 +10,7 @@ class BoatAi
 {
 	Knowledge _knowledge;
 	std::vector<Direction> _plan;
-	Point _destination;
+	Point _destination{0,0};
 
 	void computePlan();
 	std::vector<Direction> availableDirections(Point pos) const;

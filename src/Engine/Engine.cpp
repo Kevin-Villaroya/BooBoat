@@ -1,5 +1,7 @@
 #include "Engine.h"
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 Engine::Engine(Map* map) : Engine(720, 720, map){}
 
@@ -54,5 +56,8 @@ void Engine::render(){
 }
 
 void Engine::update(){
+    using namespace std::literals;
+
     this->map->tick();
+    std::this_thread::sleep_for(1s);
 }

@@ -3,6 +3,7 @@
 #include <cmath>
 #include <optional>
 #include <functional>
+#include <algorithm>
 
 namespace
 {
@@ -57,13 +58,25 @@ void BoatAi::computePlan()
         for(Direction direction : directions)
         {
             Point new_pos = current.pos + direction;
+            auto node_at_new_pos = [&](const Node& n) { return n.pos == new_pos; };
             float c = current.cost + moveCost(current.pos, direction);
             float h = heuristic(new_pos, _destination);
+
+            if(visited.end() != std::find_if(visited.begin(), visited.end(), node_at_new_pos)) continue; //Position already visited, skip
+            if(auto other_it = std::find_if(frontier.begin(), frontier.end(), node_at_new_pos); other_it != frontier.end())
+            {
+                if(other_it->estimatedCost <= c+h) continue; //Closer path to this point already planned for visit, skip
+                //Otherwise, this one is closer, remove the worse one.
+                frontier.erase(other_it);
+            }
+
             frontier.push_back({new_pos, ParentData{current_index, direction}, c, c+h});
         }
 
         std::sort(frontier.begin(), frontier.end(), [](const Node& a, const Node& b) { return a.estimatedCost > b.estimatedCost; });
     }
+
+    std::cout << "Didn't find a way" << std::endl;
 }
 
 std::vector<Direction> BoatAi::availableDirections(Point pos) const

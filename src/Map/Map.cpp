@@ -86,6 +86,10 @@ void Map::tick(){
         this->_winds[i]->tick();
         this->moveWind(this->_winds[i]);
     }
+    if(_boat)
+    {
+        _boat->tick();
+    }
 }
 
 void Map::moveWind(Wind* w){
