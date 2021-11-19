@@ -4,20 +4,16 @@
 #include <unordered_map>
 #include <optional>
 #include "Common/Point.h"
-#include "Wind.h"
+#include "Common/Direction.h"
 
 struct Knowledge
 {
 private:
-	Point _pos;
+	std::optional<Point> _pos;
 	std::unordered_map<Point, Direction> _winds;
 
 public:
-	explicit Knowledge(Point pos)
-		:_pos(pos)
-	{}
-
-	Point pos() const { return _pos; }
+	std::optional<Point> pos() const { return _pos; }
 	void pos(Point pos) { _pos = pos; }
 	void addWind(Point pos, Direction w)
 	{

@@ -8,7 +8,9 @@ Boat::Boat(Point point) : _pos(point){
 
 Knowledge Boat::perception() const
 {
-	return Knowledge{_pos};
+    Knowledge k;
+    k.pos(_pos);
+	return k;
 }
 
 void Boat::tick()

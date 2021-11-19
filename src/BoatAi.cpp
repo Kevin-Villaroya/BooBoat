@@ -1,5 +1,8 @@
 #include "BoatAi.h"
+#include "Map/Wind/LocalWind.h"
 #include <cmath>
+#include <optional>
+#include <functional>
 
 namespace
 {
@@ -13,6 +16,9 @@ namespace
 
 void BoatAi::computePlan()
 {
+    if(!_knowledge.pos()) return;
+    Point boat_pos = *_knowledge.pos();
+
 	struct ParentData{ size_t index; Direction leading_action; };
 	struct Node
     {
@@ -25,7 +31,7 @@ void BoatAi::computePlan()
 
     std::vector<Node> frontier;
     std::vector<Node> visited;
-    frontier.push_back({_knowledge.pos(), std::nullopt, 0, heuristic(_knowledge.pos(), _destination)});
+    frontier.push_back({boat_pos, std::nullopt, 0, heuristic(boat_pos, _destination)});
 
     while(frontier.size() > 0)
     {
