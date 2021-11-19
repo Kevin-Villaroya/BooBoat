@@ -22,4 +22,6 @@ public:
     static LocalWind* LOCALWIND_NULL;
 };
 
+inline int moveTurnsInWind(Direction boat_direction, Direction wind_direction) {return 0;} //TODO
+
 #endif
