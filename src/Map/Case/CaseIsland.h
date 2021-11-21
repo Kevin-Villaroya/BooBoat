@@ -12,7 +12,7 @@ public:
 
     LocalWind& wind() const;
 
-    bool isThrowable() const override;
+    bool isTraversable() const override;
 
     bool hasMarket() const override;
     void putMarket();

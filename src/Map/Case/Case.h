@@ -23,7 +23,7 @@ public:
 
     void removeWind();
 
-    virtual bool isThrowable() const = 0;
+    virtual bool isTraversable() const = 0;
     virtual bool hasMarket() const = 0;
 
     virtual bool isHarbor(CaseIsland*) const = 0;

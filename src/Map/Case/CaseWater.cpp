@@ -5,7 +5,7 @@ CaseWater::CaseWater(Point p) : Case(p){
     this->setTexture(*TextureLoader::getWaterTexture());
 }
 
-bool CaseWater::isThrowable() const{
+bool CaseWater::isTraversable() const{
     return true;
 }
 

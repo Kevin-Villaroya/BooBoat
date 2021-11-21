@@ -11,7 +11,7 @@ private:
 public:
     CaseWater(Point p);
 
-    bool isThrowable() const override;
+    bool isTraversable() const override;
     bool hasMarket() const override;
 
     bool isHarbor(CaseIsland*) const override;

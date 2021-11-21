@@ -6,7 +6,7 @@ CaseIsland::CaseIsland(Point p) : Case(p){
     this->setTexture(*TextureLoader::getLandTexture());
 }
 
-bool CaseIsland::isThrowable() const{
+bool CaseIsland::isTraversable() const{
     return false;
 }
 

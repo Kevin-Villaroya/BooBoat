@@ -84,7 +84,7 @@ void MapGenerator::addBoat(){
     for(unsigned int i = 0; i < MapGenerator::map->getSize(); i++){
         for(unsigned int j = 0; j < MapGenerator::map->getSize(); j++){
             Case* c = MapGenerator::map->caseAt(Point(i, j));
-            if(c->isThrowable()){
+            if(c->isTraversable()){
                 possibleCase.push_back(Point(i,j));
             }
         }
@@ -154,7 +154,7 @@ std::vector<std::vector<std::pair<Point, int>>> MapGenerator::makeGraph(){
         for(unsigned int j = 0; j < this->map->getSize(); j++){
             std::pair<Point, int> caseInGraph;
 
-            if( this->map->caseAt(Point(i, j))->isThrowable() ){
+            if( this->map->caseAt(Point(i, j))->isTraversable() ){
                 caseInGraph.first = Point(i, j);
                 caseInGraph.second = i + j;
             }else{
@@ -175,7 +175,7 @@ void MapGenerator::verifyConnexity(){
 
     for(unsigned int i = 0; i < this->map->getSize(); i++){
         for(unsigned int j = 0; j < this->map->getSize(); j++){
-            if(this->map->caseAt(Point(i, j))->isThrowable()){
+            if(this->map->caseAt(Point(i, j))->isTraversable()){
                 resolveConnexityGraph(graph, Point(i, j));
             }
         }
@@ -295,7 +295,7 @@ void MapGenerator::addMarketPlacesRandomly(unsigned int nbMarkets){
             unsigned int posY = rand() % this->map->getSize();
 
             Case* c = this->map->caseAt(Point(posX, posY));
-            if(c->isThrowable() && c->hasMarket()){
+            if(c->isTraversable() && c->hasMarket()){
                 CaseIsland* newCase = new CaseIsland(Point(posX, posY));
                 newCase->putMarket();
                 
@@ -423,7 +423,7 @@ bool MapGenerator::thereIsIslandNear(Point point, unsigned int size){
     for(unsigned int i = point.x - size ; i < point.x + size; i++){
         for(unsigned int j = point.y - size; j < point.y + size; j++){
             if( !MapGenerator::map->outOfBounds(Point(i, j)) ){
-                if( !MapGenerator::map->caseAt(Point(i, j))->isThrowable() ){
+                if( !MapGenerator::map->caseAt(Point(i, j))->isTraversable() ){
                     return true;
                 }
             }
@@ -434,13 +434,13 @@ bool MapGenerator::thereIsIslandNear(Point point, unsigned int size){
 }
 
 bool MapGenerator::isCoast(Point p){
-    if(!this->map->caseAt(p)->isThrowable()){
+    if(!this->map->caseAt(p)->isTraversable()){
         for(int i = -1; i < 2; i++){
             for(int j = -1; j < 2; j++){
                 Point currentPoint{p.x + i, p.y + j};
 
                 if(abs(i + j) == 1 && !this->map->outOfBounds(currentPoint)){
-                    if(this->map->caseAt(currentPoint)->isThrowable()){
+                    if(this->map->caseAt(currentPoint)->isTraversable()){
                         return true;
                     }
                 }
@@ -457,7 +457,7 @@ void MapGenerator::setHarbor(Point p, Case* c){
             Point currentPoint{p.x + i, p.y + j};
 
             if(abs(i + j) == 1 && !this->map->outOfBounds(currentPoint)){
-                if(this->map->caseAt(currentPoint)->isThrowable()){
+                if(this->map->caseAt(currentPoint)->isTraversable()){
                     CaseWater* caseWater = dynamic_cast<CaseWater*>(this->map->caseAt(currentPoint));
                     caseWater->addAdjacentMarket(dynamic_cast<CaseIsland*>(c));
                 }
