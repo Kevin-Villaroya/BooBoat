@@ -13,6 +13,7 @@ class BoatAi
 	Point _destination{0,0};
 
 	void computePlan();
+    bool checkPlan() const;
 	std::vector<Direction> availableDirections(Point pos) const;
 	float moveCost(Point from, Direction dir) const;
 

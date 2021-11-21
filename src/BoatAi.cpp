@@ -4,6 +4,7 @@
 #include <optional>
 #include <functional>
 #include <algorithm>
+#include <ranges>
 
 namespace
 {
@@ -15,8 +16,21 @@ namespace
 	}
 }
 
+bool BoatAi::checkPlan() const
+{
+    if(!_knowledge.pos()) return false;
+    Point pos = *_knowledge.pos();
+    for(Direction dir : std::ranges::views::reverse(_plan))
+    {
+        pos += dir;
+        if(_knowledge.landAt(pos)) return false;
+    }
+    return pos == _destination;
+}
+
 void BoatAi::computePlan()
 {
+    _plan.clear();
     if(!_knowledge.pos()) return;
     Point boat_pos = *_knowledge.pos();
 
@@ -28,12 +42,10 @@ void BoatAi::computePlan()
         float cost;
         float estimatedCost;
     };
-    _plan.clear();
 
     std::vector<Node> frontier;
     std::vector<Node> visited;
     frontier.push_back({boat_pos, std::nullopt, 0, heuristic(boat_pos, _destination)});
-
     while(frontier.size() > 0)
     {
         visited.push_back(std::move(frontier.back()));
@@ -85,8 +97,7 @@ std::vector<Direction> BoatAi::availableDirections(Point pos) const
 	std::vector<Direction> result;
 	for(Direction direction : possibilities)
 	{
-		//TODO : check for land
-		result.push_back(direction);
+		if(!_knowledge.landAt(pos + direction)) result.push_back(direction);
 	}
 
 	return result;
@@ -100,7 +111,7 @@ float BoatAi::moveCost(Point from, Direction dir) const
 void BoatAi::addPerception(Knowledge perception)
 {
 	_knowledge.merge(perception);
-	//TODO vérifier si le plan est toujours valide (et flush en cas de problème)
+	if(!checkPlan()) _plan.clear();
 }
 
 Direction BoatAi::nextDirection()

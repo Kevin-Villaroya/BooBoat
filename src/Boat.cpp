@@ -17,17 +17,25 @@ Knowledge Boat::perception() const
     {
         for(int y_offset = -ViewRange; y_offset < ViewRange; ++y_offset)
         {
-            Point other{_pos.x + x_offset, _pos.y + y_offset};
-            if(Case* other_case = _map->caseAt(other))
+            Point other_pos{_pos.x + x_offset, _pos.y + y_offset};
+            if(Case* other_case = _map->caseAt(other_pos))
             {
                 if(LocalWind* local_wind = other_case->wind())
                 {
-                    k.addWind(other, local_wind->direction());
+                    k.addWind(other_pos, local_wind->direction());
                 }
                 else
                 {
-                    k.addWind(other, Direction::None);
+                    k.addWind(other_pos, Direction::None);
                 }
+                if(!other_case->isTraversable())
+                {
+                    k.addLand(other_pos);
+                }
+            }
+            else //No case, not traversable
+            {
+                k.addLand(other_pos);
             }
         }
     }
